@@ -6,16 +6,18 @@ Some notes on the ``configure`` step in ATLAS
 Summary
 *******
 
-* ATLAS configure is not an autoconf configure script
+* ATLAS configure is not an `autoconf`_ configure script
 * It is a ``sh`` script that compiles and runs binaries from C code called
-  *probes* * Configure therefore needs a working C compiler and a working
+  *probes*. Configure therefore needs a working C compiler and a working
   ``make`` command.
 * The probes do most of the work of getting configuration values from the
   hardware.
 
-******
-Detail
-******
+After the configure step comes [[the build step|ATLAS build step]].
+
+************
+Introduction
+************
 
 You'll find the main docs for ``configure`` at `ATLAS configure step`_.
 
@@ -23,17 +25,18 @@ As you will see from these docs, the basic procedure is::
 
     cd BLDdir ; SRCdir/configure [flags]
 
-There is some useful help on ``flags`` from::
+where ``BLDdir`` is an empty directory to contain the configuration and build
+files, and ``SRCdir`` is the path to the ATLAS source code.
 
-    SRCdir/configure --help
+*********************
+Architecture overview
+*********************
 
-Note the double hyphen for ``--help``.
+The first thing to remember is: **ATLAS configure is not an autoconf configure
+command**. ATLAS doesn't use autoconf_ at all.
 
-What happens with you run the configure script?
-
-The first thing to remember is: **ATLAS configure is not an
-autoconf configure command**. ATLAS doesn't use ``autoconf`` at all - it doesn't
-need to be installed for the ATLAS configure step to work.
+See `Clint's email on ATLAS configure / build`_ for Clint Whaley's summary of
+configure.  Some of that email appears in this document.
 
 But ``configure`` *is* a ``sh`` script.  At the top of this script you will
 find the following comment::
@@ -41,6 +44,39 @@ find the following comment::
     # BFI configure-like script to bootstrap ATLAS's C-based config scripts
     # dependencies: sed, pwd
     # shell built-in deps: echo, test
+
+The script compiles a bunch of C scripts and probes which are found in
+``SRCdir/CONFIG``.
+
+The configure script:
+
+* Creates the universal ``Make.inc``, which defines all Makefile macros for all
+  of ATLAS's makefiles.  In the case of new systems where things must be
+  kludged, ``Make.inc`` allows the user to edit only one file, rather than
+  the standard autoconf configure method of generating the individual makefiles,
+  all of which have to be hand-edited in the case of problems.
+* Moves all needed Makefiles into ``BLDdir``.
+* Probes the system using simple test routines (in ``CONFIG/``) to figure out
+  very detailed information (what ISA, what ISA extension/vector operation, what
+  assembly dialect, what type of threading works, etc).  Most of this probe info
+  is reflected in the produced ``Make.inc``.
+
+The configure step is therefore analogous to the normal autoconf configure step,
+though ATLAS is looking for much more detailed information than a typical
+autoconf configuration run.
+
+There is more detail on the architecture of ATLAS configure in `information on
+atlconf`_.
+
+***********************
+Running ATLAS configure
+***********************
+
+There is some useful help on ``flags`` from::
+
+    SRCdir/configure --help
+
+Note the double hyphen for ``--help``.
 
 Here's the output from ``SRCdir/configure --help``::
 
@@ -237,5 +273,15 @@ values.  We can get the integers we need by following the instructions above:
     FPV3D32MAC: 8192
     FPV3D16MAC: 16384
 
+This is more on probes in `ATLAS probe overview`_
 
-.. _ATLAS configure step: http://math-atlas.sourceforge.net/atlas_install/node7.html
+
+.. _autoconf: http://www.gnu.org/software/autoconf
+.. _Clint's email on ATLAS configure / build:
+   http://sourceforge.net/p/math-atlas/mailman/message/32177779/
+.. _ATLAS configure step:
+   http://math-atlas.sourceforge.net/atlas_install/node7.html
+.. _Information on atlconf:
+   http://math-atlas.sourceforge.net/devel/atlas_devel/node45.html
+.. _ATLAS probe overview:
+   http://math-atlas.sourceforge.net/devel/atlas_devel/node47.html
