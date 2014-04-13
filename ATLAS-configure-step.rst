@@ -38,8 +38,8 @@ command**. ATLAS doesn't use autoconf_ at all.
 See `Clint's email on ATLAS configure / build`_ for Clint Whaley's summary of
 configure.  Some of that email appears in this document.
 
-But ``configure`` *is* a ``sh`` script.  At the top of this script you will
-find the following comment::
+However, like autoconf configure, ``configure`` *is* a ``sh`` script.  At the
+top of this script you will find the following comment::
 
     # BFI configure-like script to bootstrap ATLAS's C-based config scripts
     # dependencies: sed, pwd
@@ -166,7 +166,7 @@ bad-arg``.  Then we get this::
 
 
 This output tells us about another aspect of ``configure`` - which is
-**configure needs a working C compiler**.  Configure commpiles many small
+**configure needs a working C compiler**.  Configure compiles many small
 binaries, called "probes" which it will use to get configuration binaries.  To
 do this, it uses ``make`` and a C compiler.  By default the C compiler command
 is ``gcc``, but you can change this with the ``--cc=`` input argument to

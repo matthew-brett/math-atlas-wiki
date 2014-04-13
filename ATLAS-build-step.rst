@@ -19,7 +19,7 @@ Architecture overview
 * started by ``make`` (after ``configure``)
 * ``make`` compiles large C wrapper routine ``SRCdir/bin/atlas_install.c``.
   ``atlas_install.c`` is a very old file that could be rewritten for much
-  greater beauty, but it doesn't really do much.  Its just a wrapper that
+  greater beauty, but it doesn't really do much.  It's just a wrapper that
   invokes all the parts of the ATLAS build system in a proper order.  It is ugly
   because it contains a bunch of commented out cruft from old installs, and it
   creates all the individual log files about the build.
@@ -38,7 +38,7 @@ various code generators.  Code generators are usually either ANSI C programs, or
 
 The search routines could conceivably be written in any language, including
 bash.  Perhaps perl would be the easiest to write in given what they do (though
-obviously not the easiest to read.
+obviously not the easiest to read).
 
 The searches are written in C because this does not add any additional language
 dependencies beyond what ATLAS needs anyway (basic unix environment, make, C
