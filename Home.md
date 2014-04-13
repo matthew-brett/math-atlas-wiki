@@ -7,4 +7,5 @@ Don't forget to add a link to your page from somewhere, maybe here.
 
 ## Contents
 
-* The [[ATLAS configure step]]
+* [[ATLAS configure step]]
+* [[ATLAS build step]]
